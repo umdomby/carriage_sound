@@ -1,23 +1,18 @@
 import './App.css';
+import WebSocketProject from './components/WebSocketProject'
+import {observer} from "mobx-react-lite";
+import Dictaphone33 from "./components/Dictaphone33";
 
-function App() {
+
+
+const App = observer(() => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div style={{textAlign:'center'}}>
+        <WebSocketProject/>
+        <Dictaphone33/>
+      </div>
   );
-}
+});
 
 export default App;
+
