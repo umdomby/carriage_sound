@@ -1,14 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Context} from "../index";
 
 
 const WebSocketProject = () => {
 
     const {device} = useContext(Context)
-    const [messagesUpDown, setMessagesUpDown] = useState('');
-    const [messagesLeftRight, setMessagesLeftRight] = useState('');
-    const [messagesMongo, setMessagesMongo] = useState([]);
-    const [onlineUsers, setOnlineUsers] = useState([]);
 
     useEffect(()=>{
         wsConnect('user')
@@ -83,7 +79,6 @@ const WebSocketProject = () => {
                             break
                         case "messages":
                             console.log("message "+ msg.message + "  message2 " + msg.message2)
-                            setMessagesMongo(msg.messages)
                             // for (var i in msg.clientsNoRepeatUsers){
                             //     console.log(msg.clientsNoRepeatUsers[i])
                             // }
@@ -111,31 +106,7 @@ const WebSocketProject = () => {
         }
     }
 
-    return (
-        <div>
-            {/*{device.connected ?*/}
-            {/*    <div>*/}
-            {/*        <div>*/}
-            {/*            {onlineUsers.map((online, index) =>*/}
-            {/*                <div key={index}>*/}
-            {/*                    {'online user: ' + online}*/}
-            {/*                </div>*/}
-            {/*            )}*/}
-            {/*            {'online pc: ' + onlineUsers.length}*/}
-            {/*        </div>*/}
-            {/*        <div>*/}
-            {/*            {Object.keys(messagesMongo).map((item, index) => (*/}
-            {/*                <div key={index}>*/}
-            {/*                    {'user: ' + messagesMongo[item].user + ' - ' + messagesMongo[item].messages}*/}
-            {/*                </div>*/}
-            {/*            ))}*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    :*/}
-            {/*    ''*/}
-            {/*}*/}
-        </div>
-    )
+    return ([])
 }
 
 export default WebSocketProject

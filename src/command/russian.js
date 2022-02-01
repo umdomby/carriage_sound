@@ -3,9 +3,6 @@
 export const russian = (text, voice, language) => {
 
     if(language === 'ru-RU') {
-        if (text.includes('три закона')) {
-            return 'Робот не может причинить вред человеку или своим бездействием допустить, чтобы человеку был причинён вред'
-        }
         if (text.includes("голос включить")) {
             return 'голос включен'
         }
@@ -64,22 +61,7 @@ export const russian = (text, voice, language) => {
                 return 'stop'
             }
         }
-
-        // if (text.includes("закрыть")) {
-        //     window.close();
-        //     resetTranscript()
-        // }
-        // if (text.includes("фильмы")) {
-        //     speak({text: "фильмы"})
-        //     setOldText('фильмы')
-        //     window.open('https://rezka.ag/', "_blank")
-        //     resetTranscript()
-        // }
-
     }
 
-
-
     return ''
-
 }

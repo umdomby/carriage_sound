@@ -12,16 +12,13 @@ import {
 } from '../Control/controlVoceButton'
 import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
-import {useSpeechSynthesis} from "./useSpeechSynthesis";
 
 const Dictaphone33 = () => {
-    const [ voices, speak, speaking] = useSpeechSynthesis();
-    const [ currentVoice, setCurrentVoice ] = useState();
 
     const {device} = useContext(Context)
     const [loadingSpeechRecognition, setLoadingSpeechRecognition] = useState(true);
     const [voice, setVoice] = useState(true)
-    const [face, setFace] = useState(false)
+    // const [face, setFace] = useState(false)
     const [accelState, setAccelState] = useState(device.accel)
     const [speedStateUD, setSpeedStateUD] = useState(device.degreegoback)
     const [speedStateLR, setSpeedStateLR] = useState(device.degreeleftright)
@@ -44,41 +41,12 @@ const Dictaphone33 = () => {
         return () => clearTimeout(timer);
     },[])
 
-    useEffect(()=>{
-        var synth = window.speechSynthesis
-        // setAmISpeaking(synth.speaking)
-        // setAmISpeaking(speaking)
-        if(speaking === false && synth.speaking === false){
-            //setTimeout(() => {
-                startListening()
-            //}, 1500);
-        }
-        if(speaking === true){
-            setTimeout(() => {
-            SpeechRecognition.stopListening()
-            }, 500);
-            //stopListening()
-        }
-        console.log("speaking: " + speaking)
-    },[speaking])
-
-    const commands = [
-        // {
-        //     command: 'Привет',
-        //     callback: () => {speak({text: "Привет"})},
-        // },
-        {
-            command: 'очистить',
-            callback: ({ resetTranscript }) => resetTranscript()
-        },
-    ]
-
     const {
         transcript,
         listening,
         resetTranscript,
         browserSupportsSpeechRecognition
-    } = useSpeechRecognition({commands});
+    } = useSpeechRecognition();
 
     const startListening = () => SpeechRecognition.startListening({
         continuous: true,
@@ -86,13 +54,6 @@ const Dictaphone33 = () => {
     });
 
     const stopListening = () => SpeechRecognition.stopListening();
-
-    // const speechVoice = (action, languages) => {
-    //     var utterThis = new SpeechSynthesisUtterance();
-    //     utterThis.lang = languages;
-    //     utterThis.text = action;
-    //     speechSynthesis.speak(utterThis);
-    // }
 
     useEffect(() => {
         loadSpeechRecognition();
@@ -105,7 +66,6 @@ const Dictaphone33 = () => {
         });
     }, [languages]);
 
-
     const loadSpeechRecognition = async () => {
         setLoadingSpeechRecognition(false);
         SpeechRecognition.startListening({
@@ -115,16 +75,6 @@ const Dictaphone33 = () => {
     }
 
     useEffect(() => {
-        // setMessages2(prev => [transcript, ...prev])
-        // if(transcript.toString().toLowerCase().includes(oldText) || transcript.toString().toLowerCase().includes(oldText2)){
-        //     resetTranscript()
-        //     setOldText(null)
-        //     setOldText2(null)
-        // }else {
-        //     speech(transcript.toString().toLowerCase())
-        // }
-        //console.log(transcript.toString().toLowerCase() + "   ---   " + oldText)
-
         speech(transcript.toString().toLowerCase())
         if (transcript.toString().length > 100) {
             resetTranscript()
@@ -134,37 +84,38 @@ const Dictaphone33 = () => {
     const speech = (text) => {
         let action = russian(text, voice, languages)
         if(action != '') {
-            speak(action)
             if(action === 'голос включен'){setVoice(true)}
             if(action === 'голос выключен'){setVoice(false)}
-            if(action === 'мимика включена'){setFace(true)}
-            if(action === 'мимика выключена'){setFace(false)}
+            // if(action === 'мимика включена'){setFace(true)}
+            // if(action === 'мимика выключена'){setFace(false)}
             if(action === 'вперёд' || action === 'go'){controlUp()}
             if(action === 'назад' || action === 'back'){controlDown()}
             if(action === 'влево' || action === 'left'){controlLeft()}
             if(action === 'вправа' || action === 'right'){controlRight()}
             if(action === 'стоп' || action === 'stop'){controlStop()}
-            if(action === 'мимика и голос включены'){
-                setVoice(true)
-                setFace(true)
-                device.setFaceControl(true)}
-            if(action === 'мимика и голос выключены'){
-                setVoice(false)
-                setFace(false)
-                device.setFaceControl(false)}
+            // if(action === 'мимика и голос включены'){
+            //     setVoice(true)
+            //     setFace(true)
+            //     device.setFaceControl(true)}
+            // if(action === 'мимика и голос выключены'){
+            //     setVoice(false)
+            //     setFace(false)
+            //     device.setFaceControl(false)}
             resetTranscript()
         }
     }
+
     if (loadingSpeechRecognition || !browserSupportsSpeechRecognition) {
-        return null;
+        return <span>Browser doesn't support speech recognition.</span>;
     }
+
     const voiceButton = () => {
         setVoice(!voice)
     }
-    const faceButton = () => {
-        device.setFaceControl(!device.faceControl)
-        setFace(!face)
-    }
+    // const faceButton = () => {
+    //     device.setFaceControl(!device.faceControl)
+    //     setFace(!face)
+    // }
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
             UpDown(device.webSocket, -1 + device.degreegoback/10, device.accel)
@@ -178,13 +129,11 @@ const Dictaphone33 = () => {
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
             LeftRight(device.webSocket, -1 + device.degreeleftright/10, device.accel)
-            //LeftRight(device.webSocket, -1 + device.speedLR/10, device.accel)
         }, device.delaycommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
             LeftRight(device.webSocket, 1 - device.degreeleftright/10, device.accel)
-            //LeftRight(device.webSocket, 1 - device.speedLR/10, device.accel)
         }, device.delaycommand * 1000);
     }
 
@@ -206,28 +155,23 @@ const Dictaphone33 = () => {
     }
     const accelUse = (accel) => {
         setAccelState(accel)
-        //device.setAccel(accel)
         accelF(device.webSocket, accel)
     }
     const speedUseUD = (speedUD) => {
         setSpeedStateUD(speedUD)
-        //device.setSpeedUD(Number(speedUD))
         DegreeGoBack(device.webSocket, speedUD)
     }
     const speedUseLR = (speedLR) => {
         setSpeedStateLR(speedLR)
         DegreeLeftRight(device.webSocket, speedLR)
-        //device.setSpeedLR(Number(speedLR))
     }
     const delayCommandF = (delay) => {
         setDelayCommand(delay)
-        //device.setDelaycommand(delay)
         daleyCommand(device.webSocket, delay)
     }
 
     const languagesF = (languages) => {
         setLanguages(languages)
-        //device.setLang(lang)
         langF(device.webSocket, languages)
     }
 
@@ -240,15 +184,7 @@ const Dictaphone33 = () => {
                 <button onClick={stopListening}>Stop</button>
                 <button onClick={resetTranscript}>Reset</button>
                 <button style={{backgroundColor: voice ? 'green' : 'red'}} onClick={voiceButton}>голос</button>
-                <button style={{backgroundColor: face ? 'green' : 'red'}} onClick={faceButton}>мимика</button>
-                {/*<button onClick={scrollMassive}>Reset</button>*/}
-            </div>
-            <div style={{marginTop: '10px'}}>
-                <button onClick={controlUp}>GO</button>
-                <button onClick={controlDown}>BACK</button>
-                <button onClick={controlLeft}>LEFT</button>
-                <button onClick={controlRight}>RIGHT</button>
-                <button onClick={controlStop}>STOP</button>
+                {/*<button style={{backgroundColor: face ? 'green' : 'red'}} onClick={faceButton}>мимика</button>*/}
             </div>
             <div style={{marginTop: 4}}>
                 <Button style={{marginRight : 3, width: 50}} onClick={accelPlus}> + </Button>
@@ -313,9 +249,15 @@ const Dictaphone33 = () => {
                     <option value="en-GB">English</option>
                 </select>
             </div>
-            {/*{speaking ? <div className='circle-red'></div>  : <div className='circle-green'></div> }*/}
 
-            {speaking ? <div className='circle-red'></div>  : <div className='circle-green'></div> }
+            <div style={{marginTop: '20px'}}>
+                <button onClick={controlUp}>GO</button>
+                <button onClick={controlDown}>BACK</button>
+                <button onClick={controlLeft}>LEFT</button>
+                <button onClick={controlRight}>RIGHT</button>
+                <button onClick={controlStop}>STOP</button>
+            </div>
+
         </div>
     );
 };
