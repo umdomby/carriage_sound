@@ -12,7 +12,7 @@ export default class DeviceStore {
         this._speedUD = 0
         this._speedLR = 0
         this._speech = ''
-        this._lang = ''
+        this._lang = 'ru-RU'
         this._degreegoback = 0
         this._degreeleftright = 0
         this._delaycommand = 0

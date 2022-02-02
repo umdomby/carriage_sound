@@ -48,16 +48,28 @@ const Dictaphone33 = () => {
         browserSupportsSpeechRecognition
     } = useSpeechRecognition();
 
-    const startListening = () => SpeechRecognition.startListening({
-        continuous: true,
-        language: languages
-    });
+    const startListening = () => {
+        SpeechRecognition.startListening({
+            continuous: true,
+            language: languages
+        });
+    }
 
-    const stopListening = () => SpeechRecognition.stopListening();
+    const stopListening = () => {
+        SpeechRecognition.stopListening();
+    }
 
     useEffect(() => {
-        loadSpeechRecognition();
+         loadSpeechRecognition();
     }, []);
+
+    const loadSpeechRecognition = () => {
+        setLoadingSpeechRecognition(false);
+        SpeechRecognition.startListening({
+            continuous: true,
+            language: languages
+        });
+    }
 
     useEffect(() => {
         SpeechRecognition.startListening({
@@ -66,13 +78,6 @@ const Dictaphone33 = () => {
         });
     }, [languages]);
 
-    const loadSpeechRecognition = async () => {
-        setLoadingSpeechRecognition(false);
-        SpeechRecognition.startListening({
-            continuous: true,
-            language: languages
-        });
-    }
 
     useEffect(() => {
         speech(transcript.toString().toLowerCase())
