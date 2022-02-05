@@ -8,7 +8,7 @@ import {
     DegreeGoBack,
     DegreeLeftRight,
     daleyCommand,
-    accelF, langF
+    accelF, langF, ipaddressFunck
 } from '../Control/controlVoceButton'
 import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
@@ -24,6 +24,7 @@ const Dictaphone33 = () => {
     const [speedStateLR, setSpeedStateLR] = useState(device.degreeleftright)
     const [delayCommand, setDelayCommand] = useState(device.delaycommand)
     const [languages, setLanguages] = useState(device.lang)
+    const [ipaddressState, setIpaddressState] = useState(device.ipaddress)
 
     const timerControlUp = useRef(null)
     const timerControlDown = useRef(null);
@@ -37,6 +38,7 @@ const Dictaphone33 = () => {
             setAccelState(device.accel)
             setDelayCommand(device.delaycommand)
             setLanguages(device.lang)
+            setIpaddressState(device.ipaddress)
         }, 1000);
         return () => clearTimeout(timer);
     },[])
@@ -180,6 +182,11 @@ const Dictaphone33 = () => {
         langF(device.webSocket, languages)
     }
 
+    const ipaddressF = () => {
+        device.setIpaddress(ipaddressState)
+        //ipaddressFunck(ipaddressState)
+    }
+
     return (
         <div>
             <div style={{margin: 3}}>Microphone: {listening ? 'on' : 'off'} {languages}</div>
@@ -245,6 +252,23 @@ const Dictaphone33 = () => {
                 />
                 Delay COMMAND
             </div>
+            {/*<div>*/}
+            {/*    <input type='text'*/}
+            {/*           style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 150, fontSize: 16, marginTop: 4, marginRight: 5}}*/}
+            {/*           value={ipaddressState}*/}
+            {/*           onChange={(event) => {*/}
+            {/*               setIpaddressState(event.target.value)*/}
+            {/*               // delayCommandF(event.target.value)*/}
+            {/*           }}*/}
+            {/*           onKeyPress={event => {*/}
+            {/*               if (event.key === "Enter") {*/}
+            {/*                   ipaddressF()*/}
+            {/*                   //return sendUpDownLeftRight()*/}
+            {/*               }*/}
+            {/*           }}*/}
+            {/*    />*/}
+            {/*    IP ADDRESS*/}
+            {/*</div>*/}
             <div>{transcript}</div>
             <div>
                 <select value={languages} onChange={(event) => {

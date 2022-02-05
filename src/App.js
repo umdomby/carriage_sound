@@ -8,8 +8,8 @@ import Dictaphone33 from "./components/Dictaphone33";
 const App = observer(() => {
   return (
       <div style={{textAlign:'center'}}>
-        <WebSocketProject/>
-        <Dictaphone33/>
+          <Dictaphone33/>
+          <WebSocketProject/>
       </div>
   );
 });

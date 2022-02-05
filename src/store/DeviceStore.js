@@ -16,8 +16,12 @@ export default class DeviceStore {
         this._degreegoback = 0
         this._degreeleftright = 0
         this._delaycommand = 0
+        this._ipaddress = '192.168.0.107:81'
         makeAutoObservable(this)
     }
+
+    get ipaddress() {return this._ipaddress;}
+    setIpaddress(value) {this._ipaddress = value;}
 
     get delaycommand() {return this._delaycommand;}
     setDelaycommand(value) {this._delaycommand = value;}

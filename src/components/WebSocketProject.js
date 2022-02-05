@@ -11,13 +11,22 @@ const WebSocketProject = () => {
         setInterval(() => socketTest(), 5000)
     },[])
 
-    const wsConnect = (username) => {
+
+    // const start = () => {
+    //     device.setWebSocket(new WebSocket('ws://'+device.ipaddress))
+    //     wsConnect()
+    //     setInterval(() => socketTest(), 5000)
+    // }
+
+    const wsConnect = () => {
         try {
-            device.setWebSocket(new WebSocket(process.env.REACT_APP_API_URL_WS))
+            device.setWebSocket(new WebSocket('ws://' + device.ipaddress))
+            //device.setWebSocket(new WebSocket(process.env.REACT_APP_API_URL_WS))
             device.webSocket.onopen = () => {
                 device.webSocket.send(JSON.stringify({
-                    username: username,
+                    username: 'user',
                     method: "connection",
+                    ipaddress: device.ipaddress
                 }))
             }
             device.webSocket.onmessage = (event) => {
@@ -43,11 +52,13 @@ const WebSocketProject = () => {
                             device.setDelaycommand(msg.delaycommand)
                             device.setAccel(msg.accel)
                             device.setLang(msg.languages)
+                            //device.setIpaddress(msg.ipaddress)
                             console.log("device.degreegoback: " + device.degreegoback)
                             console.log("device.degreeleftright: " + device.degreeleftright)
                             console.log("device.delaycommand: " + device.delaycommand)
                             console.log("device.accel: " + device.accel)
                             console.log("device.languages: " + device.lang)
+                            //console.log("device.ipaddress: " + msg.ipaddress)
                             break
                         case "online":
                             console.log(`online`)
@@ -76,6 +87,11 @@ const WebSocketProject = () => {
                             device.setLang(msg.languages)
                             console.log("msg.languages " + msg.languages)
                             console.log("device.languages " + device.lang)
+                            break
+                        case "ipaddress":
+                            device.setIpaddress(msg.ipaddress)
+                            console.log("msg.ipaddress " + msg.ipaddress)
+                            console.log("device.ipaddress " + device.ipaddress)
                             break
                         case "messages":
                             console.log("message "+ msg.message + "  message2 " + msg.message2)
@@ -106,7 +122,16 @@ const WebSocketProject = () => {
         }
     }
 
-    return ([])
+    return (
+        []
+        // <div>
+        //     <button
+        //         onClick={start}
+        //     >
+        //         START
+        //     </button>
+        // </div>
+    )
 }
 
 export default WebSocketProject

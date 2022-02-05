@@ -63,6 +63,19 @@ export const langF = (webSocket, languages) => {
     }))
 }
 
+// export const ipaddressFunck = (ipaddress) => {
+//     const webSocket =  new WebSocket('ws://'+ ipaddress)
+//     webSocket.onopen = () => {
+//         webSocket.send(JSON.stringify({
+//             username: 'user',
+//             method: "connection",
+//         }))
+//     }
+//     webSocket.send(JSON.stringify({
+//         method: 'ipaddress',
+//         ipaddress: ipaddress
+//     }))
+// }
 
 
 
