@@ -1,29 +1,26 @@
 
 
-export const LeftRight = (webSocket, speedLR, accel) => {
+export const LeftRight = (webSocket, speedLR) => {
     webSocket.send(JSON.stringify({
         method: 'messages',
         message: speedLR,
-        accel: accel,
         stop: 0
     }))
 }
 
-export const UpDown = (webSocket, speedUD, accel) => {
+export const UpDown = (webSocket, speedUD) => {
     webSocket.send(JSON.stringify({
         method: 'messages',
         message2: speedUD,
-        accel: accel,
         stop: 0
     }))
 }
 
-export const Stop = (webSocket, accel) => {
+export const Stop = (webSocket) => {
     webSocket.send(JSON.stringify({
         method: 'messages',
         message: 0,
         message2: 0,
-        accel: accel,
         stop: 1
     }))
 }
@@ -62,20 +59,6 @@ export const langF = (webSocket, languages) => {
         languages: languages
     }))
 }
-
-// export const ipaddressFunck = (ipaddress) => {
-//     const webSocket =  new WebSocket('ws://'+ ipaddress)
-//     webSocket.onopen = () => {
-//         webSocket.send(JSON.stringify({
-//             username: 'user',
-//             method: "connection",
-//         }))
-//     }
-//     webSocket.send(JSON.stringify({
-//         method: 'ipaddress',
-//         ipaddress: ipaddress
-//     }))
-// }
 
 
 

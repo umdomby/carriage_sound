@@ -8,7 +8,7 @@ import {
     DegreeGoBack,
     DegreeLeftRight,
     daleyCommand,
-    accelF, langF, ipaddressFunck
+    accelF, langF
 } from '../Control/controlVoceButton'
 import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
@@ -125,22 +125,22 @@ const Dictaphone33 = () => {
     // }
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
-            UpDown(device.webSocket, -1 + device.degreegoback/10, device.accel)
+            UpDown(device.webSocket, -1 + device.degreegoback/10)
         }, device.delaycommand * 1000);
     }
     const controlDown = () => {
         timerControlDown.current = setTimeout(() => {
-            UpDown(device.webSocket, 1 - device.degreegoback/10, device.accel)
+            UpDown(device.webSocket, 1 - device.degreegoback/10)
         }, device.delaycommand * 1000);
     }
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
-            LeftRight(device.webSocket, -1 + device.degreeleftright/10, device.accel)
+            LeftRight(device.webSocket, -1 + device.degreeleftright/10)
         }, device.delaycommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
-            LeftRight(device.webSocket, 1 - device.degreeleftright/10, device.accel)
+            LeftRight(device.webSocket, 1 - device.degreeleftright/10)
         }, device.delaycommand * 1000);
     }
 

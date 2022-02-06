@@ -26,7 +26,7 @@ const WebSocketProject = () => {
                 device.webSocket.send(JSON.stringify({
                     username: 'user',
                     method: "connection",
-                    ipaddress: device.ipaddress
+                    //ipaddress: device.ipaddress
                 }))
             }
             device.webSocket.onmessage = (event) => {
