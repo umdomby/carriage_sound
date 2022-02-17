@@ -1,4 +1,3 @@
-// Dependencies
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
@@ -6,13 +5,9 @@ const express = require('express');
 
 const path = require('path')
 
-const privateKey = fs.readFileSync(path.resolve(__dirname,'./cert/umdomby/privkey.pem'));
-const certificate = fs.readFileSync(path.resolve(__dirname,'./cert/umdomby/cert.pem'));
-const ca = fs.readFileSync(path.resolve(__dirname,'./cert/umdomby/chain.pem'));
-
-// const privateKey = fs.readFileSync(path.resolve(__dirname,'./cert/cyberbetonline/cyberbetonlinekey.pem'));
-// const certificate = fs.readFileSync(path.resolve(__dirname,'./cert/cyberbetonline/cyberbetonlinecert.pem'));
-// const ca = fs.readFileSync(path.resolve(__dirname,'./cert/cyberbetonline/cyberbetonlinechain.pem'));
+const privateKey = fs.readFileSync(path.resolve(__dirname,'./cert/servicerobotpro/privkey.pem'));
+const certificate = fs.readFileSync(path.resolve(__dirname,'./cert/servicerobotpro/cert.pem'));
+const ca = fs.readFileSync(path.resolve(__dirname,'./cert/servicerobotpro/chain.pem'));
 
 const app = express()
 app.use(express.static(__dirname))
