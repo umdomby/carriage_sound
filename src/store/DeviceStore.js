@@ -16,7 +16,9 @@ export default class DeviceStore {
         this._degreegoback = 0
         this._degreeleftright = 0
         this._delaycommand = 0
-        this._ipaddress = '192.168.0.108:81'
+        this._ipaddress = 'localhost'
+        //this._ipaddress = '192.168.0.107'
+        //this._ipaddress = 'wss://cyberbet.online:81'
         makeAutoObservable(this)
     }
 

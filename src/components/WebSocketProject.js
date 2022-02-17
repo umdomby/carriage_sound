@@ -20,7 +20,9 @@ const WebSocketProject = () => {
 
     const wsConnect = () => {
         try {
-            device.setWebSocket(new WebSocket('ws://' + device.ipaddress))
+            device.setWebSocket(new WebSocket('wss://cyberbet.online'))
+            //device.setWebSocket(new WebSocket('ws://'+ device.ipaddress + ':81'))
+            //device.setWebSocket(new WebSocket(device.ipaddress))
             //device.setWebSocket(new WebSocket(process.env.REACT_APP_API_URL_WS))
             device.webSocket.onopen = () => {
                 device.webSocket.send(JSON.stringify({
