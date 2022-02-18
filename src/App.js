@@ -9,7 +9,6 @@ const App = observer(() => {
   return (
       <div style={{textAlign:'center'}}>
           <Dictaphone33/>
-          <WebSocketProject/>
       </div>
   );
 });

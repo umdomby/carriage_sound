@@ -12,6 +12,7 @@ import {
 } from '../Control/controlVoceButton'
 import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
+import WebSocketProject from "./WebSocketProject";
 
 const Dictaphone33 = () => {
 
@@ -25,6 +26,7 @@ const Dictaphone33 = () => {
     const [delayCommand, setDelayCommand] = useState(device.delaycommand)
     const [languages, setLanguages] = useState(device.lang)
     const [ipaddressState, setIpaddressState] = useState(device.ipaddress)
+    const [idSocket, setIdSocket] = useState(4)
 
     const timerControlUp = useRef(null)
     const timerControlDown = useRef(null);
@@ -125,22 +127,22 @@ const Dictaphone33 = () => {
     // }
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
-            UpDown(device.webSocket, -1 + device.degreegoback/10)
+            UpDown(device.webSocket, -1 + device.degreegoback/10, idSocket)
         }, device.delaycommand * 1000);
     }
     const controlDown = () => {
         timerControlDown.current = setTimeout(() => {
-            UpDown(device.webSocket, 1 - device.degreegoback/10)
+            UpDown(device.webSocket, 1 - device.degreegoback/10, idSocket)
         }, device.delaycommand * 1000);
     }
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
-            LeftRight(device.webSocket, -1 + device.degreeleftright/10)
+            LeftRight(device.webSocket, -1 + device.degreeleftright/10, idSocket)
         }, device.delaycommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
-            LeftRight(device.webSocket, 1 - device.degreeleftright/10)
+            LeftRight(device.webSocket, 1 - device.degreeleftright/10, idSocket)
         }, device.delaycommand * 1000);
     }
 
@@ -149,7 +151,7 @@ const Dictaphone33 = () => {
         clearTimeout(timerControlDown.current)
         clearTimeout(timerControlLeft.current)
         clearTimeout(timerControlRight.current)
-        Stop(device.webSocket, 1)
+        Stop(device.webSocket, idSocket)
     }
 
     const accelPlus = () => {
@@ -286,7 +288,16 @@ const Dictaphone33 = () => {
                 <button onClick={controlRight}>RIGHT</button>
                 <button onClick={controlStop}>STOP</button>
             </div>
-
+            <div>
+                <input type='number'
+                       style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 50, fontSize: 16, marginTop: 4, marginRight: 5}}
+                       value={idSocket}
+                       onChange={(event) => {
+                           setIdSocket(event.target.value)
+                       }}
+                />
+            </div>
+            <WebSocketProject id={idSocket}/>
         </div>
     );
 };

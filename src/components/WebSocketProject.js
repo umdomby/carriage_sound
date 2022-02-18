@@ -1,14 +1,13 @@
 import React, {useContext, useEffect} from 'react';
 import {Context} from "../index";
 
-
-const WebSocketProject = () => {
+const WebSocketProject = (props) => {
 
     const {device} = useContext(Context)
 
     useEffect(()=>{
-        wsConnect('user')
-        setInterval(() => socketTest(), 5000)
+        //wsConnect(props.id)
+        setInterval(() => socketTest(props.id), 5000)
     },[])
 
 
@@ -18,14 +17,16 @@ const WebSocketProject = () => {
     //     setInterval(() => socketTest(), 5000)
     // }
 
-    const wsConnect = () => {
+    const wsConnect = (id) => {
         try {
-            device.setWebSocket(new WebSocket('wss://cyberbet.online'))
+            //device.setWebSocket(new WebSocket('wss://servicerobot.pro:4433'))
+            device.setWebSocket(new WebSocket('wss://umdom.by:4433'))
             //device.setWebSocket(new WebSocket('ws://'+ device.ipaddress + ':81'))
             //device.setWebSocket(new WebSocket(device.ipaddress))
             //device.setWebSocket(new WebSocket(process.env.REACT_APP_API_URL_WS))
             device.webSocket.onopen = () => {
                 device.webSocket.send(JSON.stringify({
+                    id: id,
                     username: 'user',
                     method: "connection",
                     //ipaddress: device.ipaddress
@@ -111,10 +112,10 @@ const WebSocketProject = () => {
         }
     }
 
-    const socketTest = () => {
+    const socketTest = (id) => {
         if (device.webSocket.readyState === device.webSocket.CLOSED || device.webSocket.readyState === device.webSocket.CLOSING) {
             //if(device.username !== '' && device.connected === true) {
-                wsConnect('user')
+                wsConnect(id)
                 console.log('WebSocket reconnected ' + 'user')
             // }else{
             //     //console.log('WebSocket no connected')
