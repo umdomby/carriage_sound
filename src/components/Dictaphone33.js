@@ -16,11 +16,11 @@ const Dictaphone33 = () => {
     const [voice, setVoice] = useState(true)
     // const [face, setFace] = useState(false)
 
-    const [accelState, setAccelState] = useState(store.accel)
-    const [speedStateUD, setSpeedStateUD] = useState(store.degreegoback)
-    const [speedStateLR, setSpeedStateLR] = useState(store.degreeleftright)
-    const [delayCommand, setDelayCommand] = useState(store.delaycommand)
-    const [languages, setLanguages] = useState(store.lang)
+    const [accelState, setAccelState] = useState(localStorage.getItem('localAccelState') || '')
+    const [speedStateUD, setSpeedStateUD] = useState(localStorage.getItem('localSpeedStateUD') || '')
+    const [speedStateLR, setSpeedStateLR] = useState(localStorage.getItem('localSpeedStateLR') || '')
+    const [delayCommand, setDelayCommand] = useState(localStorage.getItem('localDelayCommand') || '')
+    const [languages, setLanguages] = useState()
 
 
     const [idSocket, setIdSocket] = useState(5)
@@ -122,22 +122,22 @@ const Dictaphone33 = () => {
     // }
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
-            UpDown(store.webSocket, -1 + store.degreegoback/10, Number(idSocket))
+            UpDown(store.webSocket, -1 + speedStateUD/10, Number(idSocket), Number(accelState))
         }, delayCommand * 1000);
     }
     const controlDown = () => {
         timerControlDown.current = setTimeout(() => {
-            UpDown(store.webSocket, 1 - store.degreegoback/10, Number(idSocket))
+            UpDown(store.webSocket, 1 - speedStateUD/10, Number(idSocket), Number(accelState))
         }, delayCommand * 1000);
     }
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
-            LeftRight(store.webSocket, -1 + store.degreeleftright/10, Number(idSocket))
+            LeftRight(store.webSocket, -1 + speedStateLR/10, Number(idSocket), Number(accelState))
         }, delayCommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
-            LeftRight(store.webSocket, 1 - store.degreeleftright/10, Number(idSocket))
+            LeftRight(store.webSocket, 1 - speedStateLR/10, Number(idSocket), Number(accelState))
         }, delayCommand * 1000);
     }
 
@@ -149,30 +149,32 @@ const Dictaphone33 = () => {
         Stop(store.webSocket, Number(idSocket))
     }
 
-    const accelPlus = () => {
-        if(accelState < 10){
-        accelUse(accelState + 1)}
-    }
-    const accelMinus = () => {
-        if(accelState > 1){
-        accelUse(accelState - 1)}
-    }
-    const accelUse = (accel) => {
-        setAccelState(accel)
-    }
-    const speedUseUD = (speedUD) => {
-        setSpeedStateUD(speedUD)
-    }
-    const speedUseLR = (speedLR) => {
-        setSpeedStateLR(speedLR)
-    }
-    const delayCommandF = (delay) => {
-        setDelayCommand(delay)
-    }
+    // const accelPlus = () => {
+    //     if(accelState < 10){
+    //     accelUse(accelState + 1)}
+    // }
+    // const accelMinus = () => {
+    //     if(accelState > 1){
+    //     accelUse(accelState - 1)}
+    // }
+    // const accelUse = (accel) => {
+    //     setAccelState(accel)
+    // }
 
-    const languagesF = (languages) => {
-        setLanguages(languages)
-    }
+    // const speedUseUD = (speedUD) => {
+    //     localStorage.setItem('myValueInLocalStorage', speedUD);
+    //     setSpeedStateUD(speedUD)
+    // }
+    // const speedUseLR = (speedLR) => {
+    //     setSpeedStateLR(speedLR)
+    // }
+    // const delayCommandF = (delay) => {
+    //     setDelayCommand(delay)
+    // }
+    //
+    // const languagesF = (languages) => {
+    //     setLanguages(languages)
+    // }
 
     const connect = () => {
         WebSocketProject(4)
@@ -189,19 +191,36 @@ const Dictaphone33 = () => {
                 <button style={{backgroundColor: voice ? 'green' : 'red'}} onClick={voiceButton}>голос</button>
                 {/*<button style={{backgroundColor: face ? 'green' : 'red'}} onClick={faceButton}>мимика</button>*/}
             </div>
-            <div style={{marginTop: 4}}>
-                <Button style={{marginRight : 3, width: 50}} onClick={accelPlus}> + </Button>
-                <label>{accelState}</label>
-                <Button style={{marginLeft : 3, width: 50, marginRight: 5}} onClick={accelMinus}> - </Button>
-                замедление
+            {/*<div style={{marginTop: 4}}>*/}
+            {/*    <Button style={{marginRight : 3, width: 50}} onClick={accelPlus}> + </Button>*/}
+            {/*    <label>{accelState}</label>*/}
+            {/*    <Button style={{marginLeft : 3, width: 50, marginRight: 5}} onClick={accelMinus}> - </Button>*/}
+            {/*    Delay*/}
+            {/*</div>*/}
+
+            <div>
+                <input type='number' step="1" min='1' max='10'
+                       style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 50, fontSize: 16, marginTop: 4, marginRight: 5}}
+                       value={accelState}
+                       onChange={(event) => {
+                           localStorage.setItem('localAccelState', event.target.value)
+                           setAccelState(event.target.value)
+                       }}
+                       onKeyPress={event => {
+                           if (event.key === "Enter") {
+                               //return sendUpDownLeftRight()
+                           }
+                       }}
+                />
+                Slow
             </div>
             <div>
                 <input type='number' step="1" min='0' max='10'
                        style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 50, fontSize: 16, marginTop: 4, marginRight: 5}}
                        value={speedStateUD}
                        onChange={(event) => {
-                           // setSpeedState(event.target.value)
-                           speedUseUD(event.target.value)
+                           localStorage.setItem('localSpeedStateUD', event.target.value)
+                           setSpeedStateUD(event.target.value)
                        }}
                        onKeyPress={event => {
                            if (event.key === "Enter") {
@@ -216,8 +235,8 @@ const Dictaphone33 = () => {
                        style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 50, fontSize: 16, marginTop: 4, marginRight: 5}}
                        value={speedStateLR}
                        onChange={(event) => {
-                           // setSpeedState(event.target.value)
-                           speedUseLR(event.target.value)
+                           localStorage.setItem('localSpeedStateLR', event.target.value)
+                           setSpeedStateLR(event.target.value)
                        }}
                        onKeyPress={event => {
                            if (event.key === "Enter") {
@@ -232,8 +251,8 @@ const Dictaphone33 = () => {
                        style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 50, fontSize: 16, marginTop: 4, marginRight: 5}}
                        value={delayCommand}
                        onChange={(event) => {
-                           // setSpeedState(event.target.value)
-                           delayCommandF(event.target.value)
+                           localStorage.setItem('localDelayCommand', event.target.value)
+                           setDelayCommand(event.target.value)
                        }}
                        onKeyPress={event => {
                            if (event.key === "Enter") {
@@ -246,7 +265,7 @@ const Dictaphone33 = () => {
             <div>{transcript}</div>
             <div>
                 <select value={languages} onChange={(event) => {
-                    languagesF(event.target.value)
+                    //languagesF(event.target.value)
                 }}>
                     <option value="ru-RU">Russian</option>
                     <option value="en-GB">English</option>
