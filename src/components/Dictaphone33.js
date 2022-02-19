@@ -14,19 +14,22 @@ import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
 import WebSocketProject from "./WebSocketProject";
 
+
+import store from "../store/DeviceStore"
+
 const Dictaphone33 = () => {
 
-    const {device} = useContext(Context)
+    //const {device} = useContext(Context)
     const [loadingSpeechRecognition, setLoadingSpeechRecognition] = useState(true);
     const [voice, setVoice] = useState(true)
     // const [face, setFace] = useState(false)
-    const [accelState, setAccelState] = useState(device.accel)
-    const [speedStateUD, setSpeedStateUD] = useState(device.degreegoback)
-    const [speedStateLR, setSpeedStateLR] = useState(device.degreeleftright)
-    const [delayCommand, setDelayCommand] = useState(device.delaycommand)
-    const [languages, setLanguages] = useState(device.lang)
-    const [ipaddressState, setIpaddressState] = useState(device.ipaddress)
-    const [idSocket, setIdSocket] = useState(4)
+    const [accelState, setAccelState] = useState(store.accel)
+    const [speedStateUD, setSpeedStateUD] = useState(store.degreegoback)
+    const [speedStateLR, setSpeedStateLR] = useState(store.degreeleftright)
+    const [delayCommand, setDelayCommand] = useState(store.delaycommand)
+    const [languages, setLanguages] = useState(store.lang)
+    const [ipaddressState, setIpaddressState] = useState(store.ipaddress)
+    const [idSocket, setIdSocket] = useState(5)
 
     const timerControlUp = useRef(null)
     const timerControlDown = useRef(null);
@@ -35,12 +38,12 @@ const Dictaphone33 = () => {
 
     useEffect(()=>{
         const timer = setTimeout(() => {
-            setSpeedStateUD(device.degreegoback)
-            setSpeedStateLR(device.degreeleftright)
-            setAccelState(device.accel)
-            setDelayCommand(device.delaycommand)
-            setLanguages(device.lang)
-            setIpaddressState(device.ipaddress)
+            setSpeedStateUD(store.degreegoback)
+            setSpeedStateLR(store.degreeleftright)
+            setAccelState(store.accel)
+            setDelayCommand(store.delaycommand)
+            setLanguages(store.lang)
+            setIpaddressState(store.ipaddress)
         }, 1000);
         return () => clearTimeout(timer);
     },[])
@@ -105,11 +108,11 @@ const Dictaphone33 = () => {
             // if(action === 'мимика и голос включены'){
             //     setVoice(true)
             //     setFace(true)
-            //     device.setFaceControl(true)}
+            //     store.setFaceControl(true)}
             // if(action === 'мимика и голос выключены'){
             //     setVoice(false)
             //     setFace(false)
-            //     device.setFaceControl(false)}
+            //     store.setFaceControl(false)}
             resetTranscript()
         }
     }
@@ -122,28 +125,28 @@ const Dictaphone33 = () => {
         setVoice(!voice)
     }
     // const faceButton = () => {
-    //     device.setFaceControl(!device.faceControl)
+    //     store.setFaceControl(!store.faceControl)
     //     setFace(!face)
     // }
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
-            UpDown(device.webSocket, -1 + device.degreegoback/10, idSocket)
-        }, device.delaycommand * 1000);
+            UpDown(store.webSocket, -1 + store.degreegoback/10, Number(idSocket))
+        }, store.delaycommand * 1000);
     }
     const controlDown = () => {
         timerControlDown.current = setTimeout(() => {
-            UpDown(device.webSocket, 1 - device.degreegoback/10, idSocket)
-        }, device.delaycommand * 1000);
+            UpDown(store.webSocket, 1 - store.degreegoback/10, Number(idSocket))
+        }, store.delaycommand * 1000);
     }
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
-            LeftRight(device.webSocket, -1 + device.degreeleftright/10, idSocket)
-        }, device.delaycommand * 1000);
+            LeftRight(store.webSocket, -1 + store.degreeleftright/10, Number(idSocket))
+        }, store.delaycommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
-            LeftRight(device.webSocket, 1 - device.degreeleftright/10, idSocket)
-        }, device.delaycommand * 1000);
+            LeftRight(store.webSocket, 1 - store.degreeleftright/10, Number(idSocket))
+        }, store.delaycommand * 1000);
     }
 
     const controlStop = () => {
@@ -151,7 +154,7 @@ const Dictaphone33 = () => {
         clearTimeout(timerControlDown.current)
         clearTimeout(timerControlLeft.current)
         clearTimeout(timerControlRight.current)
-        Stop(device.webSocket, idSocket)
+        Stop(store.webSocket, Number(idSocket))
     }
 
     const accelPlus = () => {
@@ -164,29 +167,33 @@ const Dictaphone33 = () => {
     }
     const accelUse = (accel) => {
         setAccelState(accel)
-        accelF(device.webSocket, accel)
+        accelF(store.webSocket, accel)
     }
     const speedUseUD = (speedUD) => {
         setSpeedStateUD(speedUD)
-        DegreeGoBack(device.webSocket, speedUD)
+        DegreeGoBack(store.webSocket, speedUD)
     }
     const speedUseLR = (speedLR) => {
         setSpeedStateLR(speedLR)
-        DegreeLeftRight(device.webSocket, speedLR)
+        DegreeLeftRight(store.webSocket, speedLR)
     }
     const delayCommandF = (delay) => {
         setDelayCommand(delay)
-        daleyCommand(device.webSocket, delay)
+        daleyCommand(store.webSocket, delay)
     }
 
     const languagesF = (languages) => {
         setLanguages(languages)
-        langF(device.webSocket, languages)
+        langF(store.webSocket, languages)
     }
 
     const ipaddressF = () => {
-        device.setIpaddress(ipaddressState)
+        store.setIpaddress(ipaddressState)
         //ipaddressFunck(ipaddressState)
+    }
+
+    const connect = () => {
+        WebSocketProject(4)
     }
 
     return (
@@ -297,7 +304,10 @@ const Dictaphone33 = () => {
                        }}
                 />
             </div>
-            <WebSocketProject id={idSocket}/>
+            <div>
+                <button onClick={connect}>Connect</button>
+            </div>
+            {/*<WebSocketProject id={idSocket}/>*/}
         </div>
     );
 };

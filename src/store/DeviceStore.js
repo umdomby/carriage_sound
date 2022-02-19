@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
-export default class DeviceStore {
+class DeviceStore {
 
     constructor() {
         this._username = 'user'
@@ -65,3 +65,4 @@ export default class DeviceStore {
     setLang(value) {this._lang = value;}
 
 }
+export default new DeviceStore()

@@ -1,140 +1,99 @@
-import React, {useContext, useEffect} from 'react';
-import {Context} from "../index";
+import store from "../store/DeviceStore"
 
-const WebSocketProject = (props) => {
+const WebSocketProject = (id) => {
 
-    const {device} = useContext(Context)
+    try {
+        //store.setWebSocket(new WebSocket('wss://servicerobot.pro:4433'))
+        store.setWebSocket(new WebSocket('wss://umdom.by:4433'))
 
-    useEffect(()=>{
-        //wsConnect(props.id)
-        setInterval(() => socketTest(props.id), 5000)
-    },[])
+        store.webSocket.onopen = () => {
+            store.webSocket.send(JSON.stringify({
+                id: id,
+                username: 'user',
+                method: "connection",
+                //ipaddress: store.ipaddress
+            }))
+        }
+        store.webSocket.onmessage = (event) => {
+            var s = event.data.replace(/\\n/g, "\\n")
+                .replace(/\\'/g, "\\'")
+                .replace(/\\"/g, '\\"')
+                .replace(/\\&/g, "\\&")
+                .replace(/\\r/g, "\\r")
+                .replace(/\\t/g, "\\t")
+                .replace(/\\b/g, "\\b")
+                .replace(/\\f/g, "\\f");
+            // remove non-printable and other non-valid JSON chars
+            s = s.replace(/[\u0000-\u0019]+/g, "");
+            let msg = JSON.parse(s)
 
-
-    // const start = () => {
-    //     device.setWebSocket(new WebSocket('ws://'+device.ipaddress))
-    //     wsConnect()
-    //     setInterval(() => socketTest(), 5000)
-    // }
-
-    const wsConnect = (id) => {
-        try {
-            //device.setWebSocket(new WebSocket('wss://servicerobot.pro:4433'))
-            device.setWebSocket(new WebSocket('wss://umdom.by:4433'))
-            //device.setWebSocket(new WebSocket('ws://'+ device.ipaddress + ':81'))
-            //device.setWebSocket(new WebSocket(device.ipaddress))
-            //device.setWebSocket(new WebSocket(process.env.REACT_APP_API_URL_WS))
-            device.webSocket.onopen = () => {
-                device.webSocket.send(JSON.stringify({
-                    id: id,
-                    username: 'user',
-                    method: "connection",
-                    //ipaddress: device.ipaddress
-                }))
-            }
-            device.webSocket.onmessage = (event) => {
-                var s = event.data.replace(/\\n/g, "\\n")
-                    .replace(/\\'/g, "\\'")
-                    .replace(/\\"/g, '\\"')
-                    .replace(/\\&/g, "\\&")
-                    .replace(/\\r/g, "\\r")
-                    .replace(/\\t/g, "\\t")
-                    .replace(/\\b/g, "\\b")
-                    .replace(/\\f/g, "\\f");
-                // remove non-printable and other non-valid JSON chars
-                s = s.replace(/[\u0000-\u0019]+/g,"");
-                let msg = JSON.parse(s)
-
-                if(device.webSocket.readyState !== device.webSocket.CLOSED && device.webSocket.readyState !== device.webSocket.CLOSING) {
-                    switch (msg.method) {
-                        case "connection":
-                            console.log(`пользователь ${msg.username} присоединился`)
-                            console.log(msg.txt)
-                            device.setDegreegoback(msg.degreegoback)
-                            device.setDegreeleftright(msg.degreeleftright)
-                            device.setDelaycommand(msg.delaycommand)
-                            device.setAccel(msg.accel)
-                            device.setLang(msg.languages)
-                            //device.setIpaddress(msg.ipaddress)
-                            console.log("device.degreegoback: " + device.degreegoback)
-                            console.log("device.degreeleftright: " + device.degreeleftright)
-                            console.log("device.delaycommand: " + device.delaycommand)
-                            console.log("device.accel: " + device.accel)
-                            console.log("device.languages: " + device.lang)
-                            //console.log("device.ipaddress: " + msg.ipaddress)
-                            break
-                        case "online":
-                            console.log(`online`)
-                            break
-                        case "degreegoback":
-                            device.setDegreegoback(msg.degreegoback)
-                            console.log("msg.degreegoback " + msg.degreegoback)
-                            console.log("device.degreegoback " + device.degreegoback)
-                            break
-                        case "degreeleftright":
-                            device.setDegreeleftright(msg.degreeleftright)
-                            console.log("msg.degreeleftright " + msg.degreeleftright)
-                            console.log("device.degreeleftright " + device.degreeleftright)
-                            break
-                        case "delaycommand":
-                            device.setDelaycommand(msg.delaycommand)
-                            console.log("msg.delaycommand " + msg.delaycommand)
-                            console.log("device.delaycommand " + device.delaycommand)
-                            break
-                        case "accel":
-                            device.setAccel(msg.accel)
-                            console.log("msg.accel " + msg.accel)
-                            console.log("device.accel " + device.accel)
-                            break
-                        case "languages":
-                            device.setLang(msg.languages)
-                            console.log("msg.languages " + msg.languages)
-                            console.log("device.languages " + device.lang)
-                            break
-                        case "ipaddress":
-                            device.setIpaddress(msg.ipaddress)
-                            console.log("msg.ipaddress " + msg.ipaddress)
-                            console.log("device.ipaddress " + device.ipaddress)
-                            break
-                        case "messages":
-                            console.log("message "+ msg.message + "  message2 " + msg.message2)
-                            // for (var i in msg.clientsNoRepeatUsers){
-                            //     console.log(msg.clientsNoRepeatUsers[i])
-                            // }
-                            break
-                        default:
-                            console.log('default '+ msg)
-                    }
+            if (store.webSocket.readyState !== store.webSocket.CLOSED && store.webSocket.readyState !== store.webSocket.CLOSING) {
+                switch (msg.method) {
+                    case "connection":
+                        console.log(`пользователь ${msg.username} присоединился`)
+                        console.log(msg.txt)
+                        store.setDegreegoback(msg.degreegoback)
+                        store.setDegreeleftright(msg.degreeleftright)
+                        store.setDelaycommand(msg.delaycommand)
+                        store.setAccel(msg.accel)
+                        store.setLang(msg.languages)
+                        //store.setIpaddress(msg.ipaddress)
+                        console.log("store.degreegoback: " + store.degreegoback)
+                        console.log("store.degreeleftright: " + store.degreeleftright)
+                        console.log("store.delaycommand: " + store.delaycommand)
+                        console.log("store.accel: " + store.accel)
+                        console.log("store.languages: " + store.lang)
+                        //console.log("store.ipaddress: " + msg.ipaddress)
+                        break
+                    case "online":
+                        console.log(`online`)
+                        break
+                    case "degreegoback":
+                        store.setDegreegoback(msg.degreegoback)
+                        console.log("msg.degreegoback " + msg.degreegoback)
+                        console.log("store.degreegoback " + store.degreegoback)
+                        break
+                    case "degreeleftright":
+                        store.setDegreeleftright(msg.degreeleftright)
+                        console.log("msg.degreeleftright " + msg.degreeleftright)
+                        console.log("store.degreeleftright " + store.degreeleftright)
+                        break
+                    case "delaycommand":
+                        store.setDelaycommand(msg.delaycommand)
+                        console.log("msg.delaycommand " + msg.delaycommand)
+                        console.log("store.delaycommand " + store.delaycommand)
+                        break
+                    case "accel":
+                        store.setAccel(msg.accel)
+                        console.log("msg.accel " + msg.accel)
+                        console.log("store.accel " + store.accel)
+                        break
+                    case "languages":
+                        store.setLang(msg.languages)
+                        console.log("msg.languages " + msg.languages)
+                        console.log("store.languages " + store.lang)
+                        break
+                    case "ipaddress":
+                        store.setIpaddress(msg.ipaddress)
+                        console.log("msg.ipaddress " + msg.ipaddress)
+                        console.log("store.ipaddress " + store.ipaddress)
+                        break
+                    case "messages":
+                        console.log("message " + msg.message + "  message2 " + msg.message2)
+                        // for (var i in msg.clientsNoRepeatUsers){
+                        //     console.log(msg.clientsNoRepeatUsers[i])
+                        // }
+                        break
+                    default:
+                        console.log('default ' + msg)
                 }
             }
-        }catch (e) {
-            console.log('WebSocket Error ' + e)
         }
+    }catch (e) {
+        console.log(e)
     }
 
-    const socketTest = (id) => {
-        if (device.webSocket.readyState === device.webSocket.CLOSED || device.webSocket.readyState === device.webSocket.CLOSING) {
-            //if(device.username !== '' && device.connected === true) {
-                wsConnect(id)
-                console.log('WebSocket reconnected ' + 'user')
-            // }else{
-            //     //console.log('WebSocket no connected')
-            // }
-        } else {
-            //console.log('WebSocket connected')
-        }
-    }
-
-    return (
-        []
-        // <div>
-        //     <button
-        //         onClick={start}
-        //     >
-        //         START
-        //     </button>
-        // </div>
-    )
+    return ([])
 }
 
 export default WebSocketProject
