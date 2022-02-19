@@ -1,52 +1,44 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import {Context} from "../index";
 import {
     UpDown,
     Stop,
     LeftRight,
-    DegreeGoBack,
-    DegreeLeftRight,
-    daleyCommand,
-    accelF, langF
 } from '../Control/controlVoceButton'
 import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
 import WebSocketProject from "./WebSocketProject";
-
-
 import store from "../store/DeviceStore"
 
 const Dictaphone33 = () => {
 
-    //const {device} = useContext(Context)
     const [loadingSpeechRecognition, setLoadingSpeechRecognition] = useState(true);
     const [voice, setVoice] = useState(true)
     // const [face, setFace] = useState(false)
+
     const [accelState, setAccelState] = useState(store.accel)
     const [speedStateUD, setSpeedStateUD] = useState(store.degreegoback)
     const [speedStateLR, setSpeedStateLR] = useState(store.degreeleftright)
     const [delayCommand, setDelayCommand] = useState(store.delaycommand)
     const [languages, setLanguages] = useState(store.lang)
-    const [ipaddressState, setIpaddressState] = useState(store.ipaddress)
-    const [idSocket, setIdSocket] = useState(5)
 
+
+    const [idSocket, setIdSocket] = useState(5)
     const timerControlUp = useRef(null)
     const timerControlDown = useRef(null);
     const timerControlLeft = useRef(null);
     const timerControlRight = useRef(null);
 
-    useEffect(()=>{
-        const timer = setTimeout(() => {
-            setSpeedStateUD(store.degreegoback)
-            setSpeedStateLR(store.degreeleftright)
-            setAccelState(store.accel)
-            setDelayCommand(store.delaycommand)
-            setLanguages(store.lang)
-            setIpaddressState(store.ipaddress)
-        }, 1000);
-        return () => clearTimeout(timer);
-    },[])
+    // useEffect(()=>{
+    //     const timer = setTimeout(() => {
+    //         setSpeedStateUD(store.degreegoback)
+    //         setSpeedStateLR(store.degreeleftright)
+    //         setAccelState(store.accel)
+    //         setDelayCommand(store.delaycommand)
+    //         setLanguages(store.lang)
+    //     }, 1000);
+    //     return () => clearTimeout(timer);
+    // },[])
 
     const {
         transcript,
@@ -131,22 +123,22 @@ const Dictaphone33 = () => {
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
             UpDown(store.webSocket, -1 + store.degreegoback/10, Number(idSocket))
-        }, store.delaycommand * 1000);
+        }, delayCommand * 1000);
     }
     const controlDown = () => {
         timerControlDown.current = setTimeout(() => {
             UpDown(store.webSocket, 1 - store.degreegoback/10, Number(idSocket))
-        }, store.delaycommand * 1000);
+        }, delayCommand * 1000);
     }
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
             LeftRight(store.webSocket, -1 + store.degreeleftright/10, Number(idSocket))
-        }, store.delaycommand * 1000);
+        }, delayCommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
             LeftRight(store.webSocket, 1 - store.degreeleftright/10, Number(idSocket))
-        }, store.delaycommand * 1000);
+        }, delayCommand * 1000);
     }
 
     const controlStop = () => {
@@ -167,29 +159,19 @@ const Dictaphone33 = () => {
     }
     const accelUse = (accel) => {
         setAccelState(accel)
-        accelF(store.webSocket, accel)
     }
     const speedUseUD = (speedUD) => {
         setSpeedStateUD(speedUD)
-        DegreeGoBack(store.webSocket, speedUD)
     }
     const speedUseLR = (speedLR) => {
         setSpeedStateLR(speedLR)
-        DegreeLeftRight(store.webSocket, speedLR)
     }
     const delayCommandF = (delay) => {
         setDelayCommand(delay)
-        daleyCommand(store.webSocket, delay)
     }
 
     const languagesF = (languages) => {
         setLanguages(languages)
-        langF(store.webSocket, languages)
-    }
-
-    const ipaddressF = () => {
-        store.setIpaddress(ipaddressState)
-        //ipaddressFunck(ipaddressState)
     }
 
     const connect = () => {
@@ -261,23 +243,6 @@ const Dictaphone33 = () => {
                 />
                 Delay COMMAND
             </div>
-            {/*<div>*/}
-            {/*    <input type='text'*/}
-            {/*           style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 150, fontSize: 16, marginTop: 4, marginRight: 5}}*/}
-            {/*           value={ipaddressState}*/}
-            {/*           onChange={(event) => {*/}
-            {/*               setIpaddressState(event.target.value)*/}
-            {/*               // delayCommandF(event.target.value)*/}
-            {/*           }}*/}
-            {/*           onKeyPress={event => {*/}
-            {/*               if (event.key === "Enter") {*/}
-            {/*                   ipaddressF()*/}
-            {/*                   //return sendUpDownLeftRight()*/}
-            {/*               }*/}
-            {/*           }}*/}
-            {/*    />*/}
-            {/*    IP ADDRESS*/}
-            {/*</div>*/}
             <div>{transcript}</div>
             <div>
                 <select value={languages} onChange={(event) => {
@@ -307,7 +272,6 @@ const Dictaphone33 = () => {
             <div>
                 <button onClick={connect}>Connect</button>
             </div>
-            {/*<WebSocketProject id={idSocket}/>*/}
         </div>
     );
 };
