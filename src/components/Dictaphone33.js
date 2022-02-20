@@ -9,6 +9,8 @@ import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
 import WebSocketProject from "./WebSocketProject";
 import store from "../store/DeviceStore"
+import { v4 as uuidv4 } from 'uuid';
+
 
 const Dictaphone33 = () => {
 
@@ -16,18 +18,47 @@ const Dictaphone33 = () => {
     const [voice, setVoice] = useState(true)
     // const [face, setFace] = useState(false)
 
-    const [accelState, setAccelState] = useState(localStorage.getItem('localAccelState') || '')
-    const [speedStateUD, setSpeedStateUD] = useState(localStorage.getItem('localSpeedStateUD') || '')
-    const [speedStateLR, setSpeedStateLR] = useState(localStorage.getItem('localSpeedStateLR') || '')
-    const [delayCommand, setDelayCommand] = useState(localStorage.getItem('localDelayCommand') || '')
-    const [languages, setLanguages] = useState()
+    const [accelState, setAccelState] = useState(localStorage.getItem('localAccelState') || 1)
+    const [speedStateUD, setSpeedStateUD] = useState(localStorage.getItem('localSpeedStateUD') || 0)
+    const [speedStateLR, setSpeedStateLR] = useState(localStorage.getItem('localSpeedStateLR') || 0)
+    const [delayCommand, setDelayCommand] = useState(localStorage.getItem('localDelayCommand') || 0)
+    const [languages, setLanguages] = useState(localStorage.getItem('localLanguages') || 'ru-RU')
+    const [idSocket, setIdSocket] = useState(localStorage.getItem('localIdSocket') || '-----')
 
 
-    const [idSocket, setIdSocket] = useState(5)
     const timerControlUp = useRef(null)
     const timerControlDown = useRef(null);
     const timerControlLeft = useRef(null);
     const timerControlRight = useRef(null);
+
+    useEffect(()=>{
+        if(    localStorage.getItem('localIdSocket').length < 7
+            || localStorage.getItem('localIdSocket').length === null
+            || localStorage.getItem('localIdSocket').length === undefined) {
+            localStorage.setItem('localIdSocket', pass_gen())
+        }
+        setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+        connectID(idSocket)
+    },[])
+
+    const rekey = () => {
+        localStorage.setItem('localIdSocket', pass_gen())
+        setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+    }
+
+    const connectID = () => {
+        WebSocketProject(idSocket)
+    }
+
+    const pass_gen = () => {
+        const chrs = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+        var str = '';
+        for (var i = 0; i < 7; i++) {
+            var pos = Math.floor(Math.random() * chrs.length);
+            str += chrs.substring(pos, pos+1);
+        }
+        return str;
+    }
 
     // useEffect(()=>{
     //     const timer = setTimeout(() => {
@@ -122,22 +153,22 @@ const Dictaphone33 = () => {
     // }
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
-            UpDown(store.webSocket, -1 + speedStateUD/10, Number(idSocket), Number(accelState))
+            UpDown(store.webSocket, -1 + speedStateUD/10, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlDown = () => {
         timerControlDown.current = setTimeout(() => {
-            UpDown(store.webSocket, 1 - speedStateUD/10, Number(idSocket), Number(accelState))
+            UpDown(store.webSocket, 1 - speedStateUD/10, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
-            LeftRight(store.webSocket, -1 + speedStateLR/10, Number(idSocket), Number(accelState))
+            LeftRight(store.webSocket, -1 + speedStateLR/10, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
-            LeftRight(store.webSocket, 1 - speedStateLR/10, Number(idSocket), Number(accelState))
+            LeftRight(store.webSocket, 1 - speedStateLR/10, idSocket, accelState)
         }, delayCommand * 1000);
     }
 
@@ -146,39 +177,10 @@ const Dictaphone33 = () => {
         clearTimeout(timerControlDown.current)
         clearTimeout(timerControlLeft.current)
         clearTimeout(timerControlRight.current)
-        Stop(store.webSocket, Number(idSocket))
+        Stop(store.webSocket, idSocket)
     }
 
-    // const accelPlus = () => {
-    //     if(accelState < 10){
-    //     accelUse(accelState + 1)}
-    // }
-    // const accelMinus = () => {
-    //     if(accelState > 1){
-    //     accelUse(accelState - 1)}
-    // }
-    // const accelUse = (accel) => {
-    //     setAccelState(accel)
-    // }
 
-    // const speedUseUD = (speedUD) => {
-    //     localStorage.setItem('myValueInLocalStorage', speedUD);
-    //     setSpeedStateUD(speedUD)
-    // }
-    // const speedUseLR = (speedLR) => {
-    //     setSpeedStateLR(speedLR)
-    // }
-    // const delayCommandF = (delay) => {
-    //     setDelayCommand(delay)
-    // }
-    //
-    // const languagesF = (languages) => {
-    //     setLanguages(languages)
-    // }
-
-    const connect = () => {
-        WebSocketProject(4)
-    }
 
     return (
         <div>
@@ -265,7 +267,8 @@ const Dictaphone33 = () => {
             <div>{transcript}</div>
             <div>
                 <select value={languages} onChange={(event) => {
-                    //languagesF(event.target.value)
+                    localStorage.setItem('localLanguages', event.target.value)
+                    setLanguages(event.target.value)
                 }}>
                     <option value="ru-RU">Russian</option>
                     <option value="en-GB">English</option>
@@ -280,16 +283,19 @@ const Dictaphone33 = () => {
                 <button onClick={controlStop}>STOP</button>
             </div>
             <div>
-                <input type='number'
-                       style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 50, fontSize: 16, marginTop: 4, marginRight: 5}}
+                <input type='text'
+                       disabled={true}
+                       style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 120, fontSize: 16, marginTop: 4, marginRight: 5}}
                        value={idSocket}
                        onChange={(event) => {
+                           localStorage.setItem('localIdSocket', event.target.value)
                            setIdSocket(event.target.value)
                        }}
                 />
+                <button onClick={rekey}>Re key</button>
             </div>
             <div>
-                <button onClick={connect}>Connect</button>
+                <button onClick={connectID}>Connect</button>
             </div>
         </div>
     );
