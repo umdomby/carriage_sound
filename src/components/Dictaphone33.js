@@ -9,7 +9,6 @@ import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
 import WebSocketProject from "./WebSocketProject";
 import store from "../store/DeviceStore"
-import { v4 as uuidv4 } from 'uuid';
 
 
 const Dictaphone33 = () => {
