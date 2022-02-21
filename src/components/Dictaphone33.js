@@ -14,7 +14,7 @@ const Dictaphone33 = () => {
 
     const [loadingSpeechRecognition, setLoadingSpeechRecognition] = useState(true);
     const [voice, setVoice] = useState(true)
-    // const [face, setFace] = useState(false)
+    const [face, setFace] = useState(false)
 
     const [accelState, setAccelState] = useState(localStorage.getItem('localAccelState') || 1)
     const [speedStateUD, setSpeedStateUD] = useState(localStorage.getItem('localSpeedStateUD') || 0)
@@ -176,7 +176,10 @@ const Dictaphone33 = () => {
         Stop(store.webSocket, idSocket)
     }
 
-
+    const faceButton = () => {
+        store.setFaceControl(!store.faceControl)
+        setFace(!face)
+    }
 
     return (
         <div>
@@ -187,7 +190,7 @@ const Dictaphone33 = () => {
                 <button onClick={stopListening}>Stop</button>
                 <button onClick={resetTranscript}>Reset</button>
                 <button style={{backgroundColor: voice ? 'green' : 'red'}} onClick={voiceButton}>голос</button>
-                {/*<button style={{backgroundColor: face ? 'green' : 'red'}} onClick={faceButton}>мимика</button>*/}
+                <button style={{backgroundColor: face ? 'green' : 'red'}} onClick={faceButton}>мимика</button>
             </div>
             {/*<div style={{marginTop: 4}}>*/}
             {/*    <Button style={{marginRight : 3, width: 50}} onClick={accelPlus}> + </Button>*/}
