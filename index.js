@@ -23,7 +23,16 @@ const credentials = {
     ca: ca
 };
 
-const httpServer = http.createServer(app);
+//const httpServer = http.createServer(app);
+
+http.createServer(function(req, res) {
+    res.writeHead(301, {
+        //Location: "https://www." + req.headers["host"].replace("www.", "") + req.url
+        Location: 'https://' + req.headers.host + req.url
+    });
+    res.end();
+}).listen(80);
+
 const httpsServer = https.createServer(credentials, app);
 
 app.get('*', (req, res)=>{
@@ -38,9 +47,12 @@ app.get('*', (req, res)=>{
 // });
 
 
-httpServer.listen(80, () => {
-    console.log('HTTP Server running on port 80');
-});
+
+// httpServer.listen(80, () => {
+//     console.log('HTTP Server running on port 80');
+// });
+
 httpsServer.listen(443, () => {
     console.log('HTTPS Server running on port 443');
 });
+

@@ -117,23 +117,32 @@ const Dictaphone33 = () => {
         if(action != '') {
             if(action === 'голос включен'){setVoice(true)}
             if(action === 'голос выключен'){setVoice(false)}
-            // if(action === 'мимика включена'){setFace(true)}
-            // if(action === 'мимика выключена'){setFace(false)}
+            if(action === 'мимика включена'){
+                store.setFaceControl(true)
+                setFace(true)}
+            if(action === 'мимика выключена'){
+                store.setFaceControl(false)
+                setFace(false)}
             if(action === 'вперёд' || action === 'go'){controlUp()}
             if(action === 'назад' || action === 'back'){controlDown()}
             if(action === 'влево' || action === 'left'){controlLeft()}
             if(action === 'вправа' || action === 'right'){controlRight()}
             if(action === 'стоп' || action === 'stop'){controlStop()}
-            // if(action === 'мимика и голос включены'){
-            //     setVoice(true)
-            //     setFace(true)
-            //     store.setFaceControl(true)}
-            // if(action === 'мимика и голос выключены'){
-            //     setVoice(false)
-            //     setFace(false)
-            //     store.setFaceControl(false)}
+            if(action === 'мимика и голос включены'){
+                setVoice(true)
+                setFace(true)
+                store.setFaceControl(true)}
+            if(action === 'мимика и голос выключены'){
+                setVoice(false)
+                setFace(false)
+                store.setFaceControl(false)}
             resetTranscript()
         }
+    }
+
+    const faceButton = () => {
+        store.setFaceControl(!store.faceControl)
+        setFace(!face)
     }
 
     if (loadingSpeechRecognition || !browserSupportsSpeechRecognition) {
@@ -174,11 +183,6 @@ const Dictaphone33 = () => {
         clearTimeout(timerControlLeft.current)
         clearTimeout(timerControlRight.current)
         Stop(store.webSocket, idSocket)
-    }
-
-    const faceButton = () => {
-        store.setFaceControl(!store.faceControl)
-        setFace(!face)
     }
 
     return (
@@ -283,7 +287,7 @@ const Dictaphone33 = () => {
             </div>
             <div>
                 <input type='text'
-                       disabled={true}
+                       disabled={false}
                        style={{backgroundColor: 'transparent', textAlign: 'center', borderWidth: 1, width: 120, fontSize: 16, marginTop: 4, marginRight: 5}}
                        value={idSocket}
                        onChange={(event) => {

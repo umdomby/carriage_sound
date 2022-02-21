@@ -36,7 +36,8 @@ class CameraFaceDetect extends Component {
         });
       } else {
         await this.setState({
-          facingMode: { exact: 'environment' }
+          facingMode: { exact: 'user' }
+          //facingMode: { exact: 'environment' }
         });
       }
       this.startCapture();
