@@ -5,7 +5,6 @@ import {
     Stop,
     LeftRight,
 } from '../Control/controlVoceButton'
-import {Button} from "react-bootstrap";
 import {russian} from "../command/russian";
 import WebSocketProject from "./WebSocketProject";
 import store from "../store/DeviceStore"
@@ -22,7 +21,7 @@ const Dictaphone33 = () => {
     const [speedStateLR, setSpeedStateLR] = useState(localStorage.getItem('localSpeedStateLR') || 0)
     const [delayCommand, setDelayCommand] = useState(localStorage.getItem('localDelayCommand') || 0)
     const [languages, setLanguages] = useState(localStorage.getItem('localLanguages') || 'ru-RU')
-    const [idSocket, setIdSocket] = useState(localStorage.getItem('localIdSocket') || '-----')
+    const [idSocket, setIdSocket] = useState(localStorage.getItem('localIdSocket') || null)
 
 
     const timerControlUp = useRef(null)
@@ -31,9 +30,7 @@ const Dictaphone33 = () => {
     const timerControlRight = useRef(null);
 
     useEffect(()=>{
-        if(    localStorage.getItem('localIdSocket').length < 7
-            || localStorage.getItem('localIdSocket').length === null
-            || localStorage.getItem('localIdSocket').length === undefined) {
+        if( localStorage.getItem('localIdSocket') === null || localStorage.getItem('localIdSocket') === undefined) {
             localStorage.setItem('localIdSocket', pass_gen())
         }
         setIdSocket(localStorage.getItem('localIdSocket') || '-----')
