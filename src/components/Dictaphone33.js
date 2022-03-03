@@ -36,12 +36,14 @@ const Dictaphone33 = () => {
         setIdSocket(localStorage.getItem('localIdSocket') || '-----')
         store.setIdSocket(idSocket)
         connectID(idSocket)
-    },[])
+    },[idSocket])
 
     const rekey = () => {
         localStorage.setItem('localIdSocket', pass_gen())
-        setIdSocket(localStorage.getItem('localIdSocket') || '-----')
-        store.setIdSocket(idSocket)
+        store.setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+        setIdSocket(store.idSocket)
+        // setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+        // store.setIdSocket(idSocket)
     }
 
     const connectID = () => {
@@ -295,6 +297,7 @@ const Dictaphone33 = () => {
                        onChange={(event) => {
                            localStorage.setItem('localIdSocket', event.target.value)
                            setIdSocket(event.target.value)
+                           store.setIdSocket(event.target.value)
                        }}
                 />
                 <button onClick={rekey}>Re key</button>
