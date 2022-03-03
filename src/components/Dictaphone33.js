@@ -34,12 +34,14 @@ const Dictaphone33 = () => {
             localStorage.setItem('localIdSocket', pass_gen())
         }
         setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+        store.setIdSocket(idSocket)
         connectID(idSocket)
     },[])
 
     const rekey = () => {
         localStorage.setItem('localIdSocket', pass_gen())
         setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+        store.setIdSocket(idSocket)
     }
 
     const connectID = () => {

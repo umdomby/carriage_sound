@@ -6,8 +6,8 @@ const WebSocketProject = (id) => {
         if (store.webSocket.readyState !== store.webSocket.CLOSED && store.webSocket.readyState !== store.webSocket.CLOSING){
             store.webSocket.close()
         }
-        store.setWebSocket(new WebSocket('wss://servicerobot.pro:4433'))
-        //store.setWebSocket(new WebSocket('wss://umdom.by:4433'))
+        //store.setWebSocket(new WebSocket('wss://servicerobot.pro:4433'))
+        store.setWebSocket(new WebSocket('wss://umdom.by:4433'))
 
         store.webSocket.onopen = () => {
             store.webSocket.send(JSON.stringify({
