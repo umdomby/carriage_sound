@@ -21,7 +21,7 @@ const Dictaphone33 = () => {
     const [speedStateLR, setSpeedStateLR] = useState(localStorage.getItem('localSpeedStateLR') || 0)
     const [delayCommand, setDelayCommand] = useState(localStorage.getItem('localDelayCommand') || 0)
     const [languages, setLanguages] = useState(localStorage.getItem('localLanguages') || 'ru-RU')
-    const [idSocket, setIdSocket] = useState(localStorage.getItem('localIdSocket') || null)
+    const [idSocket, setIdSocket] = useState(localStorage.getItem('localIdSocket') || '')
 
 
     const timerControlUp = useRef(null)
@@ -31,18 +31,19 @@ const Dictaphone33 = () => {
 
     useEffect(()=>{
         if( localStorage.getItem('localIdSocket') === null || localStorage.getItem('localIdSocket') === undefined) {
-            localStorage.setItem('localIdSocket', pass_gen())
+            //localStorage.setItem('localIdSocket', pass_gen())
+            localStorage.setItem('localIdSocket', '123')
         }
-        setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+        setIdSocket(localStorage.getItem('localIdSocket') || '')
         store.setIdSocket(idSocket)
         connectID(idSocket)
     },[idSocket])
 
     const rekey = () => {
         localStorage.setItem('localIdSocket', pass_gen())
-        store.setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+        store.setIdSocket(localStorage.getItem('localIdSocket') || '')
         setIdSocket(store.idSocket)
-        // setIdSocket(localStorage.getItem('localIdSocket') || '-----')
+        // setIdSocket(localStorage.getItem('localIdSocket') || '')
         // store.setIdSocket(idSocket)
     }
 
@@ -281,8 +282,10 @@ const Dictaphone33 = () => {
                     <option value="en-GB">English</option>
                 </select>
             </div>
-
-            <div style={{marginTop: '20px'}}>
+            <div style={{marginTop: '3px'}}>
+                Произнесите: влево, вправо, вперед, назад
+            </div>
+            <div style={{marginTop: '3px'}}>
                 <button onClick={controlUp}>GO</button>
                 <button onClick={controlDown}>BACK</button>
                 <button onClick={controlLeft}>LEFT</button>

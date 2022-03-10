@@ -31,7 +31,7 @@ const WebSocketProject = (id) => {
             if (store.webSocket.readyState !== store.webSocket.CLOSED && store.webSocket.readyState !== store.webSocket.CLOSING) {
                 switch (msg.method) {
                     case "connection":
-                        console.log(`пользователь ${msg.username} присоединился`)
+                        console.log(`пользователь ${msg.id} присоединился`)
                         break
                     case "messages":
                         console.log("message " + msg.message + "  message2 " + msg.message2)

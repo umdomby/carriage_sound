@@ -4,8 +4,8 @@ import { loadModels, getFullFaceDescription, createMatcher } from '../api/face';
 import DrawBox from '../components/drawBox';
 import { JSON_PROFILE } from '../common/profile';
 
-const WIDTH = 420;
-const HEIGHT = 420;
+const WIDTH = 220;
+const HEIGHT = 220;
 const inputSize = 160;
 
 class CameraFaceDetect extends Component {
