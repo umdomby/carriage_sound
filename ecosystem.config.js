@@ -1,6 +1,6 @@
 module.exports = {
   apps : [{
-    name   : "carriage_sound",
+    name   : "client",
     script : "./index.js",
     //watch: true,
     //watch_delay: 1000,

@@ -1,19 +1,19 @@
-export const LeftRight = (webSocket, speedLR, idSocket, accelState) => {
+export const LeftRight = (webSocket, speedUD, speedLR, idSocket, accelState) => {
     webSocket.send(JSON.stringify({
         id: idSocket,
         method: 'messages',
         message: speedLR,
-        message2: 0,
+        message2: speedUD,
         accel: accelState,
         stop: 0
     }))
 }
 
-export const UpDown = (webSocket, speedUD, idSocket, accelState) => {
+export const UpDown = (webSocket, speedUD, speedLR, idSocket, accelState) => {
     webSocket.send(JSON.stringify({
         id: idSocket,
         method: 'messages',
-        message: 0,
+        message: speedLR,
         message2: speedUD,
         accel: accelState,
         stop: 0

@@ -163,22 +163,22 @@ const Dictaphone33 = () => {
     // }
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
-            UpDown(store.webSocket, -1 + speedStateUD/10, idSocket, accelState)
+            UpDown(store.webSocket, -1 + speedStateUD/10,0, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlDown = () => {
         timerControlDown.current = setTimeout(() => {
-            UpDown(store.webSocket, 1 - speedStateUD/10, idSocket, accelState)
+            UpDown(store.webSocket, 1 - speedStateUD/10,0, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
-            LeftRight(store.webSocket, -1 + speedStateLR/10, idSocket, accelState)
+            LeftRight(store.webSocket, 0,-1 + speedStateLR/10, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
-            LeftRight(store.webSocket, 1 - speedStateLR/10, idSocket, accelState)
+            LeftRight(store.webSocket, 0,1 - speedStateLR/10, idSocket, accelState)
         }, delayCommand * 1000);
     }
 

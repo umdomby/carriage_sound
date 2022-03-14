@@ -22,7 +22,7 @@ const Main = (props) => {
         setErrMsg('User name already exist');
       }
     });
-    startRoom()
+    //startRoom()
   }, [props.history]);
 
   function clickJoin() {
@@ -37,13 +37,13 @@ const Main = (props) => {
     }
   }
 
-  const startRoom = () => {
-    roomRef.current.value = '123'
-    userRef.current.value = 'robot'
-    const roomName = roomRef.current.value
-    const userName = userRef.current.value
-    socket.emit('BE-check-user', { roomId: roomName, userName });
-  }
+  // const startRoom = () => {
+  //   roomRef.current.value = '123'
+  //   userRef.current.value = 'robot'
+  //   const roomName = roomRef.current.value
+  //   const userName = userRef.current.value
+  //   socket.emit('BE-check-user', { roomId: roomName, userName });
+  // }
 
   return (
     <MainContainer>
