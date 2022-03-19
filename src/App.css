@@ -2,6 +2,57 @@
   text-align: center;
 }
 
+
+
+video {
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 400px) {
+  video {
+    width: 100%;
+  }
+  .Joy {
+    margin: auto;
+    position: absolute;
+    top: 45%; left: 0; bottom: 0; right: 0;
+  }
+}
+@media (min-width: 400px) and (max-width: 800px){
+  video {
+    width: 75%;
+  }
+  .Joy {
+    margin: auto;
+    position: absolute;
+    top: 25%; left: 50%; bottom: 0; right: 0;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1200px) {
+  video {
+    width: 70%;
+  }
+  .Joy {
+    margin: auto;
+    position: absolute;
+    top: 35%; left: 0; bottom: 0; right: 0;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1920px) {
+  video {
+    width: 80%;
+  }
+  .Joy {
+    margin: auto;
+    position: absolute;
+    top: 65%; left: 0; bottom: 0; right: 0;
+  }
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -9,6 +9,7 @@
     "express": "^4.17.2",
     "face-api.js": "^0.16.1",
     "gh-pages": "^2.0.1",
+    "ion-sdk-js": "^1.8.1",
     "mobx": "^6.3.13",
     "mobx-react-lite": "^3.2.3",
     "react": "^17.0.2",

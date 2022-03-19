@@ -5,24 +5,40 @@ import CameraFaceDetect from "./views/cameraFaceDetect";
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
-import Main from './components/VideoChat/Main/Main';
-import Room from './components/VideoChat/Room/Room';
-import React from "react";
+// import Main from './components/VideoChat/Main/Main';
+// import Room from './components/VideoChat/Room/Room';
+import React, {useEffect} from "react";
+import Demonstration from "./components/Joy/Demonstration"
+import Video from "./components/Video/Video";
+import WebSocketProject from "./components/WebSocketProject";
 
 const App = observer(() => {
+
+    useEffect(()=>{
+        WebSocketProject('123')
+    },[])
+
   return (
       <div style={{textAlign:'center'}}>
-          <Dictaphone33/>
-          <BrowserRouter>
-              <AppContainer>
-                  <Switch>
-                      <Route exact path="/" component={Main} />
-                      <Route exact path="/room/:roomId" component={Room} />
-                  </Switch>
-              </AppContainer>
-          </BrowserRouter>
-        {/*<CameraFaceDetect/>*/}
+          <div className="Joy">
+              <Demonstration />
+          </div>
+          <div>
+              <Video/>
+          </div>
+          <div>
+              {/*<CameraFaceDetect/>*/}
 
+              {/*<Dictaphone33/>*/}
+              {/*<BrowserRouter>*/}
+              {/*    <AppContainer>*/}
+              {/*        <Switch>*/}
+              {/*            <Route exact path="/" component={Main} />*/}
+              {/*            <Route exact path="/room/:roomId" component={Room} />*/}
+              {/*        </Switch>*/}
+              {/*    </AppContainer>*/}
+              {/*</BrowserRouter>*/}
+          </div>
       </div>
   );
 });

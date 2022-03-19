@@ -1,9 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import {
-    UpDown,
-    Stop,
-    LeftRight,
+    Stop, Control
 } from '../Control/controlVoceButton'
 import {russian} from "../command/russian";
 import WebSocketProject from "./WebSocketProject";
@@ -163,22 +161,22 @@ const Dictaphone33 = () => {
     // }
     const controlUp = () => {
         timerControlUp.current = setTimeout(() => {
-            UpDown(store.webSocket, -1 + speedStateUD/10,0, idSocket, accelState)
+            Control(store.webSocket, -1 + speedStateUD/10,0, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlDown = () => {
         timerControlDown.current = setTimeout(() => {
-            UpDown(store.webSocket, 1 - speedStateUD/10,0, idSocket, accelState)
+            Control(store.webSocket, 1 - speedStateUD/10,0, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlLeft = () => {
         timerControlLeft.current = setTimeout(() => {
-            LeftRight(store.webSocket, 0,-1 + speedStateLR/10, idSocket, accelState)
+            Control(store.webSocket, 0,-1 + speedStateLR/10, idSocket, accelState)
         }, delayCommand * 1000);
     }
     const controlRight = () => {
         timerControlRight.current = setTimeout(() => {
-            LeftRight(store.webSocket, 0,1 - speedStateLR/10, idSocket, accelState)
+            Control(store.webSocket, 0,1 - speedStateLR/10, idSocket, accelState)
         }, delayCommand * 1000);
     }
 

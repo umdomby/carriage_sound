@@ -1,4 +1,4 @@
-import {LeftRight, Stop, UpDown} from "./controlVoceButton";
+import {Control, LeftRight, Stop, UpDown} from "./controlVoceButton";
 import store from "../store/DeviceStore"
 
 export const ControlFace = (props) => {
@@ -7,16 +7,16 @@ export const ControlFace = (props) => {
     if(store.faceControl === true) {
         switch (props.route) {
             case 'Up':
-                UpDown(store.webSocket, -1, store.idSocket,1)
+                Control(store.webSocket, -1,0, store.idSocket,1)
                 break
             case 'Down':
-                UpDown(store.webSocket, 1, store.idSocket,1)
+                Control(store.webSocket, 1, 0, store.idSocket,1)
                 break
             case 'Left':
-                LeftRight(store.webSocket, -1, store.idSocket,1)
+                Control(store.webSocket, 0,-1, store.idSocket,1)
                 break
             case 'Right':
-                LeftRight(store.webSocket, 1, store.idSocket,1)
+                Control(store.webSocket, 0,1, store.idSocket,1)
                 break
             case 'Stop':
                 Stop(store.webSocket, store.idSocket, 1)

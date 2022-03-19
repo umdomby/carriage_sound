@@ -22,9 +22,9 @@ p {
   border: 0;
 }
 
-video::-webkit-media-controls {
-  display: none !important;
-}
+/*video::-webkit-media-controls {*/
+/*  display: none !important;*/
+/*}*/
 
 @media screen and (max-height: 630px) {
   html,

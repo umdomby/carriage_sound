@@ -1,0 +1,48 @@
+/*
+    ===================================================
+        Component to demonstrate state of joystick
+    ===================================================
+*/
+.site-demonstration{
+    padding: 10px;
+}
+
+.demonstration-joystick-info{
+    padding: 30px;
+    font-size: 1.4rem;
+}
+
+.getPos-span{
+    color: #cc6198;
+}
+
+.demonstration-data{
+    display: flex;
+    justify-content: space-around;
+}
+
+.demonstration-data p span{
+    color: #ce723b;
+}
+
+.links-source-code{
+    color: #ce723b;
+    text-decoration: none;
+    transition: all .5s ease-in-out;
+}
+
+a.links-source-code:hover{
+    text-shadow: 0 2px 20px rgba(0,0,0,.40);
+    color: #f77327;
+}
+
+@media (min-width: 768px){
+    .demonstration-joystick-info{
+        width: 50%;
+        float: left;
+    }
+    .demosntration-canvas-div{
+        width: 100%;
+        float: left;
+    }
+}
