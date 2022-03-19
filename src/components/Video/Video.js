@@ -35,7 +35,7 @@ const Video = () => {
                 track.onunmute = () => {
                     subVideo.current.srcObject = stream;
                     subVideo.current.autoplay = true;
-                    subVideo.current.muted = true;
+                    subVideo.current.muted = false;
 
                     stream.onremovetrack = () => {
                         subVideo.current.srcObject = null;

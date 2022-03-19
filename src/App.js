@@ -19,7 +19,7 @@ const App = observer(() => {
     },[])
 
   return (
-      <div style={{textAlign:'center'}}>
+      <div className="App">
           <div className="Joy">
               <Demonstration />
           </div>
