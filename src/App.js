@@ -20,11 +20,11 @@ const App = observer(() => {
 
   return (
       <div className="App">
-          <div className="Joy">
-              <Demonstration />
-          </div>
           <div>
               <Video/>
+          </div>
+          <div className="Joy">
+              <Demonstration />
           </div>
           <div>
               {/*<CameraFaceDetect/>*/}

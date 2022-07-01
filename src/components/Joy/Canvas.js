@@ -22,7 +22,8 @@ class Canvas extends Component{
         }
 
         this.setState({
-            joystick: new JoyStick(canvas, position, 80, this.state.handleChange)
+            joystick: new JoyStick(canvas, position, 70, this.state.handleChange)
+
         })
     }
 
