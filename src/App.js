@@ -12,6 +12,10 @@ import Demonstration from "./components/Joy/Demonstration"
 import Video from "./components/Video/Video";
 import WebSocketProject from "./components/WebSocketProject";
 
+import SliderUpDown from "./components/SliderUpDown"
+import SliderLeftRight from "./components/SliderLeftRight"
+import 'react-rangeslider/lib/index.css'
+
 const App = observer(() => {
 
     useEffect(()=>{
@@ -25,6 +29,12 @@ const App = observer(() => {
           </div>
           <div className="Joy">
               <Demonstration />
+          </div>
+          <div>
+              <SliderUpDown/>
+          </div>
+          <div className="SliderLeftRight">
+              <SliderLeftRight/>
           </div>
           <div>
               {/*<CameraFaceDetect/>*/}
